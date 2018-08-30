@@ -1,0 +1,19 @@
+{
+	"node": "http://127.0.0.1:8000/",
+	"delegate_address": "0123456789L",
+	"passphrase": "word word word word word word word word word word word word",
+	"limit": 30000000000000,
+	"percentage": 25,
+	"fee": 0.1,
+	"threshold": 1,
+	"path": "/path/to/script/folder/",
+
+	"exclusions": [
+			"18234943547133247982L"
+			],
+
+	"dev": false,
+	"dev-node": "",
+	"dev-path": "",
+	"dev-timestamp": 1535630401430
+}
