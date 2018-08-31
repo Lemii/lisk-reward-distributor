@@ -1,25 +1,76 @@
 # Lisk Reward Distributor
-##### Current version: 1.0 (rc1)
-##### Platform: Ubuntu
-
-A tool to calculate and distribute forging rewards.
+A tool to calculate and distribute forging rewards among voters.
 
 Only compatible with Lisk Core 1.0 and up.
 
-## Requirements
-karek314's [LISK-PHP](https://github.com/karek314/lisk-php) is required for pushing TXs to the network.
+## Prerequisites
+@karek314's [LISK-PHP](https://github.com/karek314/lisk-php) is used for pushing TXs to the network. 
+
+Please install and configure this tool before proceeding.
 
 ## Installation & Configuration
-```git clone https://github.com/Lemii/lisk-reward-distributor```
+```
+git clone https://github.com/Lemii/lisk-reward-distributor
+cd lisk-reward-distributor
+pip install -r requirements.txt
+```
 
 #### config.json
+Most of the values are already pre-configured. If you're only using this on testnet and have installed everything as user 'Lisk' in the default directories, simply add your `delegate_address` and `passphrase` and go to **Usage**.
+
+If you want to customize more values, please see the list below:
+
 ```
-node				Your node address 
-delegate_address	        Your delegate address
+node				Node address used for API calls.
+delegate_address	        Your delegate's address
 passphrase			Your 12 word mnemonic passphrase
 limit 				Maximum weight of a voter (default of 30000000000000 equals 300,000 LSK)
 percentage			Total sharing percentage
 fee				Transaction fee that will be deducted from payment
-threshold			Payout threshol
+threshold			Payout threshold
+script_path			Path to Lisk Reward Distributor script
+lisk-php_path			Path to lisk-php
+exclusions			Addresses that will be excluded from reward calcution and distribution
+dev 				Enable or disable "dev mode"
+dev-node			Alternative node
+dev-script_path			Alternative path to Lisk Reward Distributor script
+dev-timestamp			Custom pre-defined timestamp
 ```
-The "dev" value can be set to "true" to (temporarily) enable an alternative set of "dev" variables. While in "dev" mode, the payment TXs will be printed to screen rather than pushed out to the network.
+While `dev` is `true`, a few things operate in a different way;
+- An alternative set of `dev` variables is used
+- All payment TXs will be printed to screen rather than pushed out to the network.
+
+
+Node ports:
+- 8000 = mainnet
+- 7000 = testnet
+- 5000 = betanet
+
+
+## Usage
+Even though it's possible to run this script manually, it is highly recommended to set up a Cron Job to do it for you.
+
+The example below runs the script every day at 12:00. 
+```
+crontab -e 
+```
+
+Add line:
+```
+0 12 * * * /usr/bin/python [path to reward-distributor.py]
+```
+
+## How it works
+When the script is ran, the following things happen:
+1. Voter database gets imported from csv. If no database exists, a new one is created
+2. New voters are added to database
+3. All voters' weight (balances) are updated
+4. Total forged Lisk since last timestamp is calculated
+5. Each voter's reward is calculated (can be limited to X relational amount in config)
+6. Rewards are added to voters' pending balances
+7. If new pending balance exceeds configured payout threshold, construct TX command line and send to lisk-php 
+8. If TX is sent, reset voter's balance to 0
+9. New voter dabase is dumped to csv
+10. New timestamp is dumped to file
+
+All steps are logged in `reward-distributor.log`.
