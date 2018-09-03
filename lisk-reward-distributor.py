@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 import sys
 import time
 import datetime
@@ -7,28 +8,16 @@ import csv
 import subprocess
 
 
+# Set real path for increased cron compatibilty (eg: write files to correct directory)
+def joiner(file, path=os.path.dirname(os.path.realpath(__file__))):
+	return os.path.join(path, file)
+
+
 # Open config file and set variables
-with open("config.json", "r") as json_f:
+with open(joiner("config.json"), "r") as json_f:
+	
 	json_config = json.load(json_f)
-
-	# Set alternative "dev" variables for testing purposes
-	if json_config["dev"]:
-		node = json_config["dev-node"]
-		script_path = json_config["dev-script_path"]
-		timestamp = json_config["dev-timestamp"]
-
-	# Set regular variables
-	else:
-		node = json_config["node"]
-		script_path = json_config["script_path"]
-
-		try:
-			with open(script_path + "timestamp", "r") as f:
-				timestamp = f.read()
-
-		except:
-			timestamp = int(time.time() * 1000)
-
+	node = json_config["node"]
 	lisk_php = json_config["lisk-php_path"]
 	delegate_address = json_config["delegate_address"]
 	passphrase = '"%s"' % json_config["passphrase"]
@@ -38,10 +27,16 @@ with open("config.json", "r") as json_f:
 	threshold = json_config["threshold"]
 	exclusions = json_config["exclusions"]
 
+	try:
+		with open(os.path.join(joiner("timestamp")), "r") as f:
+			timestamp = f.read()
+	except:
+		timestamp = int(time.time() * 1000)
+
 
 # Log message to file
 def logger(msg):
-	with open(script_path + "reward-distributor.log", "a") as f:
+	with open(joiner("lisk-reward-distributor.log"), "a") as f:
 		f.write("%s - %s\n" % (str(datetime.datetime.now()), msg))
 
 
@@ -151,7 +146,7 @@ def main():
 
 		
 	try:
-		with open(script_path + "voters.csv", "r") as csv_file:
+		with open(joiner("voters.csv"), "r") as csv_file:
 			csv_reader = csv.reader(csv_file, delimiter='\t')
 
 			for line in csv_reader:
@@ -171,11 +166,11 @@ def main():
 
 	# Backing up voter database before dumping new one
 	logger("Backing up voters.csv")
-	subprocess.Popen("cp voters.csv voters_backup.csv", shell=True)
+	subprocess.Popen("cp %s %s" % (joiner("voters.csv"), joiner("voters_backup.csv")), shell=True)
 			
 
 	# Dump new database with current voters / balances	
-	with open(script_path + "voters.csv", "w") as new_csv_file:
+	with open(joiner("voters.csv"), "w") as new_csv_file:
 		logger("Writing updated database to voters.csv")
 
 		csv_writer = csv.writer(new_csv_file, delimiter='\t')
@@ -185,7 +180,7 @@ def main():
 
 
 	# Dump new timestamp to file			
-	with open(script_path + "timestamp", "w") as f:
+	with open(joiner("timestamp"), "w") as f:
 		logger("Writing new timestamp to config (%s > %s)" % (timestamp, timestamp_new))
 		f.write(str(timestamp_new))
 

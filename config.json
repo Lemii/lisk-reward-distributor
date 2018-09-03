@@ -2,11 +2,10 @@
 	"node": "http://127.0.0.1:7000/",
 	"delegate_address": "0123456789L",
 	"passphrase": "word word word word word word word word word word word word",
-	"limit": 30000000000000,
+	"limit": 75000000000000,
 	"percentage": 25,
 	"fee": 0.1,
 	"threshold": 1,
-	"script_path": "/home/lisk/lisk-reward-distributor/",
 	"lisk-php_path": "/home/lisk/lisk-php/",
 
 	"exclusions": [
@@ -14,7 +13,4 @@
 			],
 
 	"dev": false,
-	"dev-node": "http://127.0.0.1:7000/",
-	"dev-script_path": "/home/lisk/lisk-reward-distributor/testing/",
-	"dev-timestamp": 1535630401430
 }
