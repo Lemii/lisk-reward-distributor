@@ -28,17 +28,11 @@ limit 				Maximum weight of a voter (default of 30000000000000 equals 300,000 LS
 percentage			Total sharing percentage
 fee				Transaction fee that will be deducted from payment
 threshold			Payout threshold
-script_path			Path to Lisk Reward Distributor script
 lisk-php_path			Path to lisk-php
 exclusions			Addresses that will be excluded from reward calcution and distribution
 dev 				Enable or disable "dev mode"
-dev-node			Alternative node
-dev-script_path			Alternative path to Lisk Reward Distributor script
-dev-timestamp			Custom pre-defined timestamp
 ```
-While `dev` is `true`, a few things operate in a different way;
-- An alternative set of `dev` variables is used
-- All payment TXs will be printed to screen rather than pushed out to the network.
+While `dev` is `true`, all payment TXs will be printed to screen rather than pushed out to the network.
 
 
 Node ports:
@@ -57,7 +51,7 @@ crontab -e
 
 Add line:
 ```
-0 12 * * * /usr/bin/python [path to reward-distributor.py]
+0 12 * * * /usr/bin/python [path to lisk-reward-distributor.py]
 ```
 
 ## How it works
@@ -73,4 +67,4 @@ When the script is ran, the following things happen:
 9. New voter dabase is dumped to csv
 10. New timestamp is dumped to file
 
-All steps are logged in `reward-distributor.log`.
+All steps are logged in `lisk-reward-distributor.log`.
