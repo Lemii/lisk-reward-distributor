@@ -3,6 +3,8 @@ A tool to calculate and distribute forging rewards among voters.
 
 Only compatible with Lisk Core 1.0 and up.
 
+If you like this software, please consider a donation =] `6725360537423611335L`
+
 ## Prerequisites
 @karek314's [LISK-PHP](https://github.com/karek314/lisk-php) is used for pushing TXs to the network. 
 
