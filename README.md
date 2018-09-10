@@ -26,7 +26,7 @@ If you want to customize more values, please see the list below:
 node                            Node address used for API calls.
 delegate_address                Your delegate's address
 passphrase                      Your 12 word mnemonic passphrase
-second_passphrase				Your (optional) second 12 word mnemonic passphrase (default = false)
+second_passphrase               Your (optional) second 12 word mnemonic passphrase (default = false)
 limit                           Maximum weight of a voter (default of 70500000000000 equals 750,000 LSK)
 percentage                      Total sharing percentage
 fee                             Transaction fee that will be deducted from payment
