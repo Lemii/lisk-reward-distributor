@@ -132,10 +132,17 @@ def reward_distributor(reward):
 				print cmd
 
 			else:
-				subprocess.Popen(cmd, shell=True)
+				# Create, sign and broadcast transaction
+				tx = subprocess.check_output(cmd, shell=True)
 
-			# Reset voter's balance to 0.0 after payout	
-			x[2] = 0.0
+				# Check if broadcast was succesful		
+				if any("Transaction(s) accepted" in s for s in tx.splitlines()):	
+					# Reset voter's balance to 0.0 after payout	
+					x[2] = 0.0
+					logger("Transaction succesful. Pending balance set to 0.")
+
+				else:
+					logger("Transaction failed. Pending balance not adjusted.")
 
 		else:
 			logger("%.8f > %.8f" % (balance_old, x[2]))
