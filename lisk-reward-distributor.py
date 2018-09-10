@@ -20,12 +20,14 @@ with open(joiner("config.json"), "r") as json_f:
 	node = json_config["node"]
 	lisk_php = json_config["lisk-php_path"]
 	delegate_address = json_config["delegate_address"]
-	passphrase = '"%s"' % json_config["passphrase"]
 	limit = json_config["limit"]
 	percentage = float(json_config["percentage"] * 0.01)
 	fee = json_config["fee"]
 	threshold = json_config["threshold"]
 	exclusions = json_config["exclusions"]
+	passphrase = '"%s"' % json_config["passphrase"]
+	if json_config["second_passphrase"] != False: 
+		passphrase += ' "%s"' % json_config["second_passphrase"]
 
 	try:
 		with open(os.path.join(joiner("timestamp")), "r") as f:
