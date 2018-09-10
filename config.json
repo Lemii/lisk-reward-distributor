@@ -2,6 +2,7 @@
 	"node": "http://127.0.0.1:7000/",
 	"delegate_address": "0123456789L",
 	"passphrase": "word word word word word word word word word word word word",
+	"second_passphrase": false,
 	"limit": 75000000000000,
 	"percentage": 25,
 	"fee": 0.1,
@@ -12,5 +13,5 @@
 			"18234943547133247982L"
 			],
 
-	"dev": false,
+	"dev": false
 }

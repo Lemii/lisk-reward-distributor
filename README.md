@@ -23,16 +23,17 @@ Most of the values are already pre-configured. If you're only using this on test
 If you want to customize more values, please see the list below:
 
 ```
-node				Node address used for API calls.
-delegate_address	        Your delegate's address
-passphrase			Your 12 word mnemonic passphrase
-limit 				Maximum weight of a voter (default of 30000000000000 equals 300,000 LSK)
-percentage			Total sharing percentage
-fee				Transaction fee that will be deducted from payment
-threshold			Payout threshold
-lisk-php_path			Path to lisk-php
-exclusions			Addresses that will be excluded from reward calcution and distribution
-dev 				Enable or disable "dev mode"
+node                            Node address used for API calls.
+delegate_address                Your delegate's address
+passphrase                      Your 12 word mnemonic passphrase
+second_passphrase               Your (optional) second 12 word mnemonic passphrase (default = false)
+limit                           Maximum weight of a voter (default of 70500000000000 equals 750,000 LSK)
+percentage                      Total sharing percentage
+fee                             Transaction fee that will be deducted from payment
+threshold                       Payout threshold
+lisk-php_path                   Path to lisk-php
+exclusions                      Addresses that will be excluded from reward calcution and distribution
+dev                             Enable or disable "dev mode"
 ```
 While `dev` is `true`, all payment TXs will be printed to screen rather than pushed out to the network.
 
