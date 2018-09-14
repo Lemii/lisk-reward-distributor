@@ -26,8 +26,11 @@ with open(joiner("config.json"), "r") as json_f:
 	threshold = json_config["threshold"]
 	exclusions = json_config["exclusions"]
 	passphrase = '"%s"' % json_config["passphrase"]
-	if json_config["second_passphrase"] != False: 
-		passphrase += ' "%s"' % json_config["second_passphrase"]
+	custom_message = '"%s"' % json_config["custom_message"]
+	if len(custom_message) > 0 and json_config["second_passphrase"] is False:
+		second_passphrase = "false"
+	else:
+		second_passphrase = ' "%s"' % json_config["second_passphrase"]
 
 	try:
 		with open(os.path.join(joiner("timestamp")), "r") as f:
@@ -67,7 +70,7 @@ def update_voters():
 	def voter_update_iteration(json_data):
 		for voter in json_data['data']['voters']:
 			if voter['address'] not in voters_check and voter['address'] not in exclusions:
-				voter_as_list = [voter['address'], voter['balance'], 0.0]
+				voter_as_list = [voter['address'], voter['balance'], 0.0, 0.0]
 				voters.append(voter_as_list)
 				logger("%s added to database" % voter['address'])
 
@@ -127,7 +130,7 @@ def reward_distributor(reward):
 		# Execute payout if above threshold
 		if x[2] > threshold:
 			logger("%.8f to be paid out" % (x[2]))
-			cmd = "php %slisk-cli.php SendTransaction " % lisk_php + x[0]+ " " + "%.8f" % (x[2] - fee) + " %s" % passphrase
+			cmd = "php %slisk-cli.php SendTransaction " % lisk_php + x[0]+ " " + "%.8f" % (x[2] - fee) + " " + "%s" % passphrase + " " + "%s" % second_passphrase + " " + "%s" % custom_message
 			
 			# If "dev" is true, print out command line instead of push tx
 			if json_config["dev"]:
@@ -139,7 +142,8 @@ def reward_distributor(reward):
 
 				# Check if broadcast was succesful		
 				if any("Transaction(s) accepted" in s for s in tx.splitlines()):	
-					# Reset voter's balance to 0.0 after payout	
+					# Reset voter's balance to 0.0 after payout
+					x[3] = float(x[3]) + x[2]	
 					x[2] = 0.0
 					logger("Transaction succesful. Pending balance set to 0.")
 
