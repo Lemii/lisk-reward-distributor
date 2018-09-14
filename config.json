@@ -3,6 +3,7 @@
 	"delegate_address": "0123456789L",
 	"passphrase": "word word word word word word word word word word word word",
 	"second_passphrase": false,
+	"custom_message": "Pool script: https://github.com/Lemii/lisk-reward-distributor",
 	"limit": 75000000000000,
 	"percentage": 25,
 	"fee": 0.1,
