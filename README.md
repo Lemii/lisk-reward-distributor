@@ -71,3 +71,6 @@ When the script is ran, the following things happen:
 10. New timestamp is dumped to file
 
 All steps are logged in `lisk-reward-distributor.log`.
+
+## License
+Licensed under the [MIT license](https://github.com/Lemii/lisk-reward-distributor/blob/master/LICENSE)
